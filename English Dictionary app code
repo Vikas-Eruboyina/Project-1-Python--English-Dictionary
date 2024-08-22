@@ -1,0 +1,85 @@
+# english dictionary app
+
+import json
+
+def menu():
+    
+    print('~'*20)
+    print('Main Menu :')
+    print(' ')
+    print('1.Add a new word')
+    print('2.find the meaning')
+    print('3.Update a word')
+    print('4.Exit')  
+    print('~'*20)
+    
+def update():          #3
+    w = input('Enter word to update  :')
+    if w in dic:
+        new_mean = input('Enter Meaning :')
+        dic[w] = new_mean
+        upload(dic)
+        print('word updated sucessfully....')
+    else:
+        print('word Not Found !')
+        
+
+    
+def load_dict():  # load
+    try:
+        with open('words.txt', 'r') as file:
+            dic1 = json.load(file)
+        
+    except FileNotFoundError :
+        dic1 = {}          # let's create new dictionary when dictionary not found
+
+        
+    return dic1
+
+
+    
+def upload(dic):   #1.1
+    
+    f=open('words.txt','w')
+    json.dump(dic,f)
+    f.close()
+    
+
+def add():         #1
+    w = input('Enter the word :')
+    m = input('Enter the meaning of the word :')
+    dic[w]=m
+    #  print(dic)
+    upload(dic)
+    
+
+
+def mean():      #2
+    s = input('Enter word for meaning :')
+    with open('words.txt','r') as f1:
+        mean = json.load(f1)
+    print('~'*20)
+    print('Meaning of',s,':',mean[s])
+    
+    
+dic=load_dict()   
+
+while True:
+    menu()
+    n = int(input('Choose an option :'))
+    if n==1:
+        add()
+        
+    elif n==2:
+        mean()
+        
+    elif n==3:
+        update()
+        
+    elif n==4:
+        print('Exiting....')
+        break
+        
+    else:
+        print('Enter Valid Integer ')
+        
